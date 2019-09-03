@@ -20,7 +20,6 @@ module.exports = {
              minify:{
                  removeAttributeQuotes:true,//移除不必要的双引号
                 //  collapseWhitespace:true,//自动折叠空行
-                
              },
              hash:true,
              })
