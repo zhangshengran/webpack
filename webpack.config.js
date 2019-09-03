@@ -1,7 +1,8 @@
 let path = require('path')
 let HTMLWebpackPlugin = require('html-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');//打包的时候每次清除上次的build的文件
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
   devServer: {
     port: 3000,
@@ -27,39 +28,32 @@ module.exports = {
         test: /\.js$/, exclude: /node_modules/, loader: "babel-loader"
         // test 符合此正则规则的文件，运用 loader 去进行处理，除了exclude 中指定的内容
       },
+     
       {
-        test: /\.css$/,
+        test: /\.(le|c)ss$/,
         use: [
-        
           {
-            loader: "style-loader",
+            loader: MiniCssExtractPlugin.loader,
             options: {
-              insertAt: 'top'
-
-            }
+              hmr: process.env.NODE_ENV === 'development',
+            },
           },
-          { loader: "css-loader" }
-        ]
-      },
-      {
-        test: /\.less$/,
-        use: [{
-          loader: "style-loader", // creates style nodes from JS strings
-          options: {
-            insertAt: 'top'
-          }
-        },
-        {
-          loader: "css-loader" // translates CSS into CommonJS
-        },
-        {
-          loader: "less-loader" // compiles Less to CSS
-        }]
+          'css-loader',
+          // 'postcss-loader',
+          'less-loader',
+        ],
       },
 
     ]
   },
   plugins: [
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // all options are optional
+      filename: '[name].css',
+      chunkFilename: '[id].css',
+      ignoreOrder: false, // Enable to remove warnings about conflicting order
+    }),
     // new VueLoaderPlugin(),
     new HTMLWebpackPlugin({
       template: "./src/index.html",
