@@ -1,33 +1,23 @@
 {
-  "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-loader": "^8.0.6",
-    "babel-preset-env": "^1.7.0",
-    "clean-webpack-plugin": "^3.0.0",
-    "css-loader": "^2.1.1",
-    "html-webpack-plugin": "^3.2.0",
-    "less": "^3.9.0",
-    "less-loader": "^4.1.0",
-    "mini-css-extract-plugin": "^0.8.0",
-    "node-sass": "^4.12.0",
-    "sass": "^1.22.10",
-    "sass-loader": "^8.0.0",
-    "style-loader": "^0.23.1",
-    "vue-loader": "^15.7.1",
-    "webpack": "^4.29.6",
-    "webpack-cli": "^3.3.0",
-    "webpack-dev-server": "^3.2.1"
-  },
-  "scripts": {
-    "build": "webpack",
-    "dev": "webpack-dev-server"
-  },
-  "name": "webpack",
+  "name": "webpacktest",
   "version": "1.0.0",
+  "description": "",
   "main": "index.js",
-  "license": "MIT",
-  "dependencies": {
-    "@babel/core": "^7.5.5",
-    "fibers": "^4.0.1"
+  "scripts": {
+    "build": "webpack --config build/webpack.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^3.4.0",
+    "html-webpack-plugin": "^3.2.0",
+    "less": "^3.10.3",
+    "less-loader": "^5.0.0",
+    "mini-css-extract-plugin": "^0.9.0",
+    "style-loader": "^1.1.2",
+    "webpack": "^4.41.4",
+    "webpack-cli": "^3.3.10"
   }
 }
