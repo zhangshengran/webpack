@@ -1,9 +1,11 @@
 const path = require('path')
+const webpack = require("webpack");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const vueLoaderPlugin = require('vue-loader/lib/plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const HappyPack = require('happypack')
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const os = require('os')
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length })
 const argv = require('yargs').argv;
@@ -11,7 +13,7 @@ const argv = require('yargs').argv;
 const mode = argv.mode;
 let devMode = mode == "development" ? true : false;
 module.exports = {
-  // mode:mode,
+  mode:mode,
   entry: {
     main: path.resolve(__dirname, '../src/main.js')
   },
@@ -38,7 +40,7 @@ module.exports = {
           // 'cache-loader', 'thread-loader',
           {
             loader: 'vue-loader',
-           
+
             options: {
               compilerOptions: {
                 preserveWhitespace: false
@@ -63,7 +65,7 @@ module.exports = {
       {
         test: /\.less$/,
         use: 'happypack/loader?id=less',
-   
+
       },
       {
         test: /\.(jep?g|png|gif)$/,
@@ -123,6 +125,13 @@ module.exports = {
     extensions: ['*', '.js', '.json', '.vue']
   },
   plugins: [
+    new webpack.DllReferencePlugin({
+      context: __dirname,
+      manifest: require('./vendor-manifest.json')
+    }),
+    new CopyWebpackPlugin([ // 拷贝生成的文件到dist目录 这样每次不必手动去cv
+      { from: 'build/static', to: 'static' }
+    ]),
     new HappyPack({
       id: 'js',
       loaders: [
