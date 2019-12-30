@@ -2,7 +2,7 @@ const path = require("path");
 const webpack = require("webpack");
 module.exports = {
   entry: {
-    vendor: ['vue'] 
+    vendor: ['vue','vue-router'] 
   },
   output: {
     // path: path.resolve(__dirname, '../dist/static/js'), // 打包后文件输出的位置

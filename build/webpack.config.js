@@ -9,7 +9,6 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const os = require('os')
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length })
 const argv = require('yargs').argv;
-// const devMode = process.argv.indexOf('--mode=production') === -1;
 const mode = argv.mode;
 let devMode = mode == "development" ? true : false;
 module.exports = {
