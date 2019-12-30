@@ -9,15 +9,16 @@ module.exports = WebpackMerge(webpackConfig,{
   devtool:'cheap-module-source-map',
   plugins:[
     new CopyWebpackPlugin([{
-      from:path.resolve(__dirname,'../public'),
+      from:path.resolve(__dirname,'../public'), 
       to:path.resolve(__dirname,'../dist')
     }]),
   ],
   optimization:{
     minimizer:[
       new UglifyJsPlugin({//压缩js
+        test: /\.js(\?.*)?$/i,
         cache:true,
-        parallel:true,
+        // parallel:true,
         sourceMap:true
     }),
     new OptimizeCssAssetsPlugin({})

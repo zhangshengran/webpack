@@ -42,6 +42,17 @@ module.exports = {
         }]
       },
       {
+        test:/\.js$/,
+        use:{
+          loader:'babel-loader',
+          options:{
+            presets:[
+              ['@babel/preset-env']
+            ]
+          }
+        }
+      },
+      {
         test: /\.css$/,
         use: [{
           loader: devMode ? 'vue-style-loader' : MiniCssExtractPlugin.loader,
@@ -109,7 +120,7 @@ module.exports = {
     ]
   },
   resolve: {
-    alias: {
+    alias: { 
       'vue$': 'vue/dist/vue.runtime.esm.js',
       ' @': path.resolve(__dirname, '../src')
     },

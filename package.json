@@ -33,6 +33,9 @@
     "yargs": "^15.0.2"
   },
   "dependencies": {
+    "@babel/core": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
+    "babel-loader": "^8.0.6",
     "vue": "^2.6.11"
   }
 }
