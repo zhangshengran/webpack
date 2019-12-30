@@ -51,10 +51,11 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        use: 'happypack/loader',
+        use: 'happypack/loader?id=js',
       },
       {
         test: /\.css$/,
+        // use: 'happypack/loader?id=css',
         use: [{
           loader: devMode ? 'vue-style-loader' : MiniCssExtractPlugin.loader,
           options: {
@@ -65,13 +66,14 @@ module.exports = {
       },
       {
         test: /\.less$/,
-        use: [{
-          loader: devMode ? 'vue-style-loader' : MiniCssExtractPlugin.loader,
-          options: {
-            publicPath: "../dist/css/",
-            hmr: devMode
-          }
-        }, 'css-loader', 'less-loader']
+        use: 'happypack/loader?id=less',
+        // use: [{
+        //   loader: devMode ? 'vue-style-loader' : MiniCssExtractPlugin.loader,
+        //   options: {
+        //     publicPath: "../dist/css/",
+        //     hmr: devMode
+        //   }
+        // }, 'css-loader', 'less-loader']
       },
       {
         test: /\.(jep?g|png|gif)$/,
@@ -132,7 +134,7 @@ module.exports = {
   },
   plugins: [
     new HappyPack({
-   
+      id: 'js',
       loaders: [
         {
           loader: 'babel-loader',
@@ -143,9 +145,25 @@ module.exports = {
             cacheDirectory: true,
           }
         }
+
       ],
       threadPool: happyThreadPool//共享线程池
     }),
+
+    new HappyPack({
+      id: 'less',
+      threadPool: happyThreadPool,
+      loaders: [{
+        loader: devMode ? 'vue-style-loader' : MiniCssExtractPlugin.loader,
+        options: {
+          publicPath: "../dist/css/",
+          hmr: devMode
+        }
+      }, 'css-loader', 'less-loader']
+
+    }),
+
+
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../public/index.html')
