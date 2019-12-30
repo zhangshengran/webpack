@@ -3,11 +3,15 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const vueLoaderPlugin = require('vue-loader/lib/plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const HappyPack = require('happypack')
+const os = require('os')
+const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length })
 const argv = require('yargs').argv;
 // const devMode = process.argv.indexOf('--mode=production') === -1;
 const mode = argv.mode;
 let devMode = mode == "development" ? true : false;
 module.exports = {
+  // mode:mode,
   entry: {
     main: path.resolve(__dirname, '../src/main.js')
   },
@@ -18,39 +22,36 @@ module.exports = {
   },
   module: {
     rules: [
-      // {
-      //   test: /\.js$/,
-      //   use: {
-      //     loader: 'babel-loader',
-      //     options: {
-      //       presets: ['@babel/preset-env']
-      //     }
-      //   },
-      //   exclude: /node_modules/
-      // },
+      {
+        test: /\.js$/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env']
+          }
+        },
+        exclude: /node_modules/
+      },
       {
         test: /\.vue$/,
         use: [
           // 'cache-loader', 'thread-loader',
-           {
-          loader: 'vue-loader',
-          options: {
-            compilerOptions: {
-              preserveWhitespace: false
+          {
+            loader: 'vue-loader',
+            // include: [
+            //   path.resolve(__dirname, "src")
+            // ],
+            // exclude: /node_modules/,
+            options: {
+              compilerOptions: {
+                preserveWhitespace: false
+              }
             }
-          }
-        }]
+          }]
       },
       {
-        test:/\.js$/,
-        use:{
-          loader:'babel-loader',
-          options:{
-            presets:[
-              ['@babel/preset-env']
-            ]
-          }
-        }
+        test: /\.js$/,
+        use: 'happypack/loader',
       },
       {
         test: /\.css$/,
@@ -76,6 +77,8 @@ module.exports = {
         test: /\.(jep?g|png|gif)$/,
         use: {
           loader: 'url-loader',
+          // include:[path.resolve(__dirname,'src')],
+          // exclude:/node_modules/,
           options: {
             limit: 10240,
             fallback: {
@@ -120,13 +123,29 @@ module.exports = {
     ]
   },
   resolve: {
-    alias: { 
+    alias: {
       'vue$': 'vue/dist/vue.runtime.esm.js',
-      ' @': path.resolve(__dirname, '../src')
+      ' @': path.resolve(__dirname, '../src'),
+      'assets': path.resolve('src/assets'),
     },
     extensions: ['*', '.js', '.json', '.vue']
   },
   plugins: [
+    new HappyPack({
+   
+      loaders: [
+        {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              ['@babel/preset-env']
+            ],
+            cacheDirectory: true,
+          }
+        }
+      ],
+      threadPool: happyThreadPool//共享线程池
+    }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../public/index.html')

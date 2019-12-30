@@ -19,7 +19,7 @@ module.exports = WebpackMerge(webpackConfig,{
         test: /\.js(\?.*)?$/i,
         cache:true,
         // parallel:true,
-        sourceMap:true
+        // sourceMap:true
     }),
     new OptimizeCssAssetsPlugin({})
     ],

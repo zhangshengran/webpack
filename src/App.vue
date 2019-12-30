@@ -6,6 +6,7 @@
 <script>
 export default {
   data(){
+    console.log(123)
     return {
       name:123
     }
