@@ -38,10 +38,7 @@ module.exports = {
           // 'cache-loader', 'thread-loader',
           {
             loader: 'vue-loader',
-            // include: [
-            //   path.resolve(__dirname, "src")
-            // ],
-            // exclude: /node_modules/,
+           
             options: {
               compilerOptions: {
                 preserveWhitespace: false
@@ -55,7 +52,6 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        // use: 'happypack/loader?id=css',
         use: [{
           loader: devMode ? 'vue-style-loader' : MiniCssExtractPlugin.loader,
           options: {
@@ -67,13 +63,7 @@ module.exports = {
       {
         test: /\.less$/,
         use: 'happypack/loader?id=less',
-        // use: [{
-        //   loader: devMode ? 'vue-style-loader' : MiniCssExtractPlugin.loader,
-        //   options: {
-        //     publicPath: "../dist/css/",
-        //     hmr: devMode
-        //   }
-        // }, 'css-loader', 'less-loader']
+   
       },
       {
         test: /\.(jep?g|png|gif)$/,
