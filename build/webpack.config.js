@@ -6,6 +6,7 @@ const vueLoaderPlugin = require('vue-loader/lib/plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const HappyPack = require('happypack')
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+var FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const os = require('os')
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length })
 const chalk = require('chalk');
@@ -55,11 +56,8 @@ module.exports = {
         }, 'css-loader']
       },
       {
-        //  test: /(\.css|\.less)$/,
         test: /less$/,
-        // test: /\.(le|c)ss$/,
         use: 'happypack/loader?id=less',
-
       },
       {
         test: /\.(jep?g|png|gif)$/,
@@ -117,6 +115,7 @@ module.exports = {
     extensions: ['*', '.js', '.json', '.vue']
   },
   plugins: [
+   
     new webpack.DllReferencePlugin({
       context: __dirname,
       manifest: require('./vendor-manifest.json')
@@ -171,5 +170,8 @@ module.exports = {
       clear: false,
       width: 100
     }),
+    new FriendlyErrorsWebpackPlugin({
+      clearConsole: true,
+    })
   ]
 }

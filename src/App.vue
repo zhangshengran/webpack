@@ -9,7 +9,7 @@ export default {
   data(){
     console.log(123)
     return {
-      name:123
+      name:1233323333
     }
   },
 }
