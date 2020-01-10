@@ -8,11 +8,13 @@ const HappyPack = require('happypack')
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const os = require('os')
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length })
+const chalk = require('chalk');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const argv = require('yargs').argv;
 const mode = argv.mode;
 let devMode = mode == "development" ? true : false;
 module.exports = {
-  mode:mode,
+  mode: mode,
   entry: {
     main: path.resolve(__dirname, '../src/main.js')
   },
@@ -24,19 +26,8 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env']
-          }
-        },
-        exclude: /node_modules/
-      },
-      {
         test: /\.vue$/,
         use: [
-          // 'cache-loader', 'thread-loader',
           {
             loader: 'vue-loader',
 
@@ -45,7 +36,9 @@ module.exports = {
                 preserveWhitespace: false
               }
             }
-          }]
+          }],
+        exclude: /node_modules/,
+        include: [path.resolve('src')]
       },
       {
         test: /\.js$/,
@@ -62,7 +55,9 @@ module.exports = {
         }, 'css-loader']
       },
       {
-        test: /\.less$/,
+        //  test: /(\.css|\.less)$/,
+        test: /less$/,
+        // test: /\.(le|c)ss$/,
         use: 'happypack/loader?id=less',
 
       },
@@ -70,8 +65,6 @@ module.exports = {
         test: /\.(jep?g|png|gif)$/,
         use: {
           loader: 'url-loader',
-          // include:[path.resolve(__dirname,'src')],
-          // exclude:/node_modules/,
           options: {
             limit: 10240,
             fallback: {
@@ -119,7 +112,7 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.runtime.esm.js',
       ' @': path.resolve(__dirname, '../src'),
-      'assets': path.resolve('src/assets'),
+      'assets': path.resolve(__dirname, '../src/assets'),
     },
     extensions: ['*', '.js', '.json', '.vue']
   },
@@ -141,7 +134,9 @@ module.exports = {
               ['@babel/preset-env']
             ],
             cacheDirectory: true,
-          }
+          },
+          exclude: /node_modules/,
+          include: [path.resolve('src')]
         }
 
       ],
@@ -170,6 +165,11 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: devMode ? '[name].css' : '[name].[hash].css',
       chunkFilename: devMode ? '[id].css' : '[id].[hash].css'
-    })
+    }),
+    new ProgressBarPlugin({
+      format: '  build [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds)',
+      clear: false,
+      width: 100
+    }),
   ]
 }
