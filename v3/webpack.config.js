@@ -2,9 +2,11 @@
  * @Author       : zhangshengran
  * @Date         : 2020-09-02 14:53:56
  * @LastEditors  : zhangshengran
- * @LastEditTime : 2020-09-08 15:40:16
+ * @LastEditTime : 2020-09-09 14:58:30
  * @Description  : file content
  */
+const webpack = require('webpack');
+
     module.exports =  {
         mode: 'development',
         entry: {
@@ -33,5 +35,7 @@
             }
           }
         },
-    
+        plugins: [
+          new webpack.BannerPlugin('ddddddddddddd')]
+
       }
