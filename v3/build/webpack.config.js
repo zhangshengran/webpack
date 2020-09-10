@@ -2,7 +2,7 @@
  * @Author       : zhangshengran
  * @Date         : 2020-09-02 14:53:56
  * @LastEditors  : zhangshengran
- * @LastEditTime : 2020-09-10 15:45:40
+ * @LastEditTime : 2020-09-10 16:08:19
  * @Description  : file content
  */
 var HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -16,21 +16,30 @@ console.log(mode)
 const chalk = require('chalk');
 module.exports = {
   entry: {
-    index: path.resolve(__dirname, "./src/main.js"),
+    index: path.resolve(__dirname, "../src/main.js"),
   },
   output: {
     path: path.resolve(__dirname, './dist'),
     filename: 'main_bundle[hash].js'
   },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
+    }
+  },
   module: {
     rules: [
       {
         test: /\.vue$/,
-        use: ['vue-loader']
+        include: path.resolve("src"),
+        use: [
+          //  "thread-loader",
+        'vue-loader']
       },
      
       {
         test: /\.less$/i,
+        exclude: /node_modules/,
         use: [
           mode==='development'?'vue-style-loader': MiniCssExtractPlugin.loader,
           'css-loader',
@@ -44,7 +53,7 @@ module.exports = {
       cacheGroups: {
         vendors: {
           name: `node_modules_vendors`,
-          test: /[\\/]node_modules[\\/]/,//将第三方包拆出来
+          test: /[\\/]node_modules[\\/]/,//将第三方node_modules包单独拆出来
           priority: -10,
           chunks: 'initial'
         },
@@ -64,7 +73,7 @@ stats: 'errors-only',
   plugins: [
     new HtmlWebpackPlugin(
       {
-        template: path.resolve(__dirname, './static/index.html')
+        template: path.resolve(__dirname, '../static/index.html')
       }
 
     ),
