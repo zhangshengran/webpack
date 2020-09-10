@@ -2,7 +2,7 @@
  * @Author       : zhangshengran
  * @Date         : 2020-09-02 14:53:56
  * @LastEditors  : zhangshengran
- * @LastEditTime : 2020-09-09 19:34:44
+ * @LastEditTime : 2020-09-10 11:49:32
  * @Description  : file content
  */
 
@@ -11,7 +11,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path')
 const vueLoaderPlugin = require('vue-loader/lib/plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-
+const  MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: 'development',
@@ -20,13 +20,25 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, './dist'),
-    filename: 'index_bundle[hash].js'
+    filename: 'main_bundle[hash].js'
   },
   module: {
     rules:[
       {
         test:/\.vue$/,
         use:['vue-loader']
+      },
+      {
+        test: /\.js$/,
+        loader: 'babel-loader'
+      },
+      {
+        test: /\.less$/i,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'less-loader'
+        ]
       }
     ]
   },
@@ -60,7 +72,10 @@ module.exports = {
    
     new CleanWebpackPlugin(),
     new vueLoaderPlugin(),
-
+    new MiniCssExtractPlugin({
+      filename: '[name].[hash].css',
+      chunkFilename: '[id].[hash].css'
+    })
   ]
 
 }

@@ -2,21 +2,23 @@
  * @Author       : zhangshengran
  * @Date         : 2020-09-09 17:43:31
  * @LastEditors  : zhangshengran
- * @LastEditTime : 2020-09-09 17:43:44
+ * @LastEditTime : 2020-09-10 11:29:35
  * @Description  : file content
 -->
 <template>
-  <div>
-      123
-  </div>
+  <div id="dd" class="test">123</div>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
-<style>
-
+<style lang="less" >
+.test {
+  color: red;
+}
+.dd{
+  font-size: 100px;
+}
 </style>
+
