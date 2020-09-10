@@ -2,7 +2,7 @@
  * @Author       : zhangshengran
  * @Date         : 2020-09-10 14:49:31
  * @LastEditors  : zhangshengran
- * @LastEditTime : 2020-09-10 16:09:04
+ * @LastEditTime : 2020-09-10 16:28:27
  * @Description  : file content
  */
 const path = require('path')
@@ -25,9 +25,16 @@ module.exports = merge(webpackConfig, {
           {
         test: /\.js$/,
         include: path.resolve("src"),
-        loader: [
-          // "thread-loader",
-        'babel-loader']
+        //   // "thread-loader"
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            cacheDirectory: true,
+            presets: ['@babel/preset-env']
+          }
+        }
+        
       },]
   }
 
