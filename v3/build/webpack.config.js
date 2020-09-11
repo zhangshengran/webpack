@@ -2,7 +2,7 @@
  * @Author       : zhangshengran
  * @Date         : 2020-09-02 14:53:56
  * @LastEditors  : zhangshengran
- * @LastEditTime : 2020-09-10 16:08:19
+ * @LastEditTime : 2020-09-11 10:31:46
  * @Description  : file content
  */
 var HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -38,10 +38,10 @@ module.exports = {
       },
      
       {
-        test: /\.less$/i,
+        test: /\.(less)|(css)$/i,
         exclude: /node_modules/,
         use: [
-          mode==='development'?'vue-style-loader': MiniCssExtractPlugin.loader,
+          mode==='development'?'style-loader': MiniCssExtractPlugin.loader,
           'css-loader',
           'less-loader'
         ]
