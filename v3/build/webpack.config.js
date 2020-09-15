@@ -2,7 +2,7 @@
  * @Author       : zhangshengran
  * @Date         : 2020-09-02 14:53:56
  * @LastEditors  : zhangshengran
- * @LastEditTime : 2020-09-11 10:31:46
+ * @LastEditTime : 2020-09-15 15:08:15
  * @Description  : file content
  */
 var HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -19,7 +19,7 @@ module.exports = {
     index: path.resolve(__dirname, "../src/main.js"),
   },
   output: {
-    path: path.resolve(__dirname, './dist'),
+    path: path.resolve(__dirname, '../dist'),
     filename: 'main_bundle[hash].js'
   },
   resolve: {
